@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Lucas.Api.ToDo.Data.Contexts;
+using Lucas.Api.ToDo.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.MigrateDatabase();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
