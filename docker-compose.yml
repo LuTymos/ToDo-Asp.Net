@@ -1,0 +1,28 @@
+services:
+  api:
+    image: lucas-api-todo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ConnectionStrings__DatabaseConnection=Server=db;Port=3306;Database=ToDoDb;User=root;Password=Kikt2.12;
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ToDoDb
+      MYSQL_ROOT_PASSWORD: Kikt2.12
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
