@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Lucas.Api.ToDo.Data.Contexts;
 using Lucas.Api.ToDo.Extensions;
+using Lucas.Api.ToDo.Data.Repositories;
+using Lucas.Api.ToDo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,13 @@ var connectionString = builder.Configuration.GetConnectionString("DatabaseConnec
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+#endregion
+
+#region INJEÇÃO DE DEPENDÊNCIA (DI)
+
+builder.Services.AddScoped<ITarefaRepository, TarefaRepository>();
+
+builder.Services.AddScoped<ITarefaService, TarefaService>();
 #endregion
 
 builder.Services.AddControllers();
