@@ -9,17 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 #region INICIALIZANDO O BANCO DE DADOS
 var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection");
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
+    options.UseMySql(connectionString, serverVersion));
 #endregion
 
 #region INJEÇÃO DE DEPENDÊNCIA (DI)
-
 builder.Services.AddScoped<ITarefaRepository, TarefaRepository>();
-
 builder.Services.AddScoped<ITarefaService, TarefaService>();
+#endregion
+
+#region AutoMapper Configuration
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 #endregion
 
 builder.Services.AddControllers();
